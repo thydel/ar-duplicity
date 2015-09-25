@@ -1,0 +1,6 @@
+---
+
+- command: dpkg-query -l {{ name }}
+  register: is_installed
+  failed_when: is_installed.rc > 1
+  changed_when: False

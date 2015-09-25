@@ -1,0 +1,48 @@
+---
+
+- set_fact: { use_commit: True }
+
+- { include: include/install.yml, vars: { list: [ backupninja, augeas-tools, python-augeas, python-yaml ] }}
+
+
+# http://www.raphink.info/2011/02/manually-associating-lenses-with-files.html
+
+- { include: include/installed.yml, vars: { name: augeas-tools }}
+
+- name: backupninja - install augtools lens for php like conf files
+  when: True and 'augeas-tools' in installed
+
+  template:
+    src: phplike.aug.j2
+    dest: /usr/share/augeas/lenses/phplike.aug
+
+
+- { include: include/commit-etc.yml, vars: { comment: Before configuring backupninja }}
+
+
+- { include: include/installed.yml, vars: { name: augeas-tools }}
+
+- name: backupninja - our config setup
+  when: True and 'backupninja' in installed
+  with_items:
+    - { option: reportinfo, value: 'yes' }
+    - { option: reportspace, value: 'yes' }
+  register: augeas
+
+  augeas:
+    command: set
+    path: /files/etc/backupninja.conf/.anon/{{ item.option }}
+    value: '{{ item.value }}'
+
+
+- include: include/commit-etc.yml
+  when: augeas.changed
+  vars: { comment: After configuring backupninja }
+
+
+- name: backupninja - ensure configured dirs for duplicity exists
+  with_items: [ archive, log, restore, tmp ]
+
+  file:
+    path: /space/duplicity/{{ item }}
+    state: directory

@@ -1,0 +1,4 @@
+---
+
+- { register: file, stat: { path: '{{ path }}' }}
+- assert: { that: file.stat.exists }

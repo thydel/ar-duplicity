@@ -1,0 +1,39 @@
+---
+
+- name: duply - ensure duply installed
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items: [ duply ]
+
+- set_fact:
+    std_dup_bin: /usr/bin/duplicity
+
+- name: duply - check mode hack
+  stat: path={{ std_dup_bin }} get_md5=no
+  register: cmh
+
+- name: duply - ensure will not mix different version of duplicity
+  file: path={{ std_dup_bin }} mode=0400
+  when: cmh.stat.exists
+
+- when: False
+  set_fact:
+    doc: |
+      .. {
+  
+      - We want to use ``duply``
+      - We want to use the latest version of duplicity installed from official site (installed
+        as ``/usr/local/bin/duplicity``)
+      - Installing ``duply`` trigger installation of ``duplicity``
+      - We also use ``backupninja`` and neither with this one nor with ``duply`` can we set
+        ``duplicity`` path without patching those commands
+      - When running ``/usr/bin/duplicity`` python *mixes* ``/usr/bin/duplicity` (version
+        0.6.18) and ``/usr/local/lib/python2.7/dist-packages/duplicity`` (which seems plain
+        wrong to mee)
+      - To avoid the situation we keep standard ``duplicity`` installed but prevent it to run
+        via ``chmod``
+
+      .. note::
+
+         Alternative solution could be to also install ``duply`` from official site
+      
+      .. }

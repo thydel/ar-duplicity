@@ -1,0 +1,28 @@
+---
+
+backupninja:
+
+  dup:
+
+    when: manual
+    nicelevel: 19
+    testconnect: No
+    archive: /var/cache/backupninja/duplicity
+    tmpdir: /var/tmp
+    volsize: 100
+    desthost:
+      name: unknown.nowhere
+      shortname: unknown
+    destuser: duplicity
+    destbase: store
+    keepincroffulls: 3
+    increments: 7
+    keep: 60
+
+  dups:
+
+    root:
+      num: 90
+      exclude_other_filesystems: Yes
+      include: [ /* ]
+      keepincroffulls: 4

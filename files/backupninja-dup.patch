@@ -1,0 +1,21 @@
+--- dup.orig    2012-06-29 22:43:57.000000000 +0200
++++ dup 2014-02-25 19:38:26.215303309 +0100
+@@ -12,6 +12,7 @@
+
+ setsection gpg
+ getconf password
++getconf password_file
+ getconf sign no
+ getconf encryptkey
+ getconf signkey
+@@ -45,6 +46,10 @@
+
+ [ -n "$desturl" -o -n "$destdir" ]  || fatal "The destination directory (destdir) must be set when desturl is not used."
+ [ -n "$include" -o -n "$vsinclude" ]  || fatal "No source includes specified"
++if [ "$password_file" ]; then
++   [ -r "$password_file" ] || fatal "Can't read password file"
++   password="$(cat "$password_file")"
++fi
+ [ -n "$password" ] || fatal "The password option must be set."
+ if [ "`echo $desturl | /usr/bin/awk -F ':' '{print $1}'`" == "s3+http" ]; then
+    [ -n "$awsaccesskeyid" -a -n "$awssecretaccesskey" ]  || fatal "AWS access keys must be set for S3 backups."

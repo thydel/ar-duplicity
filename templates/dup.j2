@@ -1,0 +1,72 @@
+#jinja2: line_statement_prefix: "%", line_comment_prefix: "##"
+# -*- Mode: conf; -*-
+# {{ ansible_managed }}
+
+% set empty = ""
+% set nl = "\n"
+
+% set default = backupninja.dup
+
+when = {{ default.when }}
+
+nicelevel = {{ default.nicelevel }}
+testconnect = no
+
+tmpdir = {{ default.tmpdir }}
+
+% set archive = default.archive
+% set volsize = default.volsize
+% set shortname = default.desthost.shortname
+% set name = shortname ~ "+" ~ inventory_hostname ~ "+" ~ item.name
+% set onefs = ""
+% if item.exclude_other_filesystems is defined
+  % set onefs = " --exclude-other-filesystems"
+% endif
+% set options = "--archive-dir " ~ archive ~ " --name " ~ name ~ " --volsize " ~ volsize ~ onefs
+options = {{ options }}
+
+[gpg]
+
+sign = no
+password_file = /etc/duplicity/{{ inventory_hostname }}
+
+[source]
+{{ empty }}
+% filter trim
+% if item.include is defined:
+  % for i in item.include:
+      include = {{ i }}
+  % endfor
+% else:
+    include = /{{ item.name }}
+% endif
+% endfilter
+
+{{ nl }}
+
+% if item.exclude is defined:
+  % for i in item.exclude:
+    % filter trim
+      exclude = {{ i }}
+    % endfilter
+  % endfor
+% endif
+
+{{ empty }}
+
+[dest]
+
+incremental = yes
+increments = {{ item.increments|default(default.increments) }}
+keep = {{ item.keep|default(default.keep) }}
+keepincroffulls = {{ item.keepincroffulls|default(default.keepincroffulls) }}
+
+sshoptions = -oIdentityFile=/etc/duplicity/{{ inventory_hostname }}-duplicity
+
+desthost = {{ default.desthost.name }}
+destuser = {{ default.destuser }}
+destdir = {{ default.destbase }}/{{ inventory_hostname }}/{{ item.name }}
+
+## Local Variables:
+## mode: jinja2
+## End:

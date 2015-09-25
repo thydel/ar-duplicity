@@ -1,0 +1,23 @@
+---
+
+- set_fact: { use_commit: True }
+
+- { include: include/commit-etc.yml, vars: { comment: Before configuring duplicity for backupninja }}
+
+
+- assert: { that: backupninja is defined }
+- debug: { var: backupninja }
+
+- name: backupninja - duplicity configs
+  with_items: backupninja.dups | itemize
+  register: dups
+
+  template:
+    src: dup.j2
+    dest: /etc/backup.d/{{ item.num }}.{{ item.name }}.dup
+    mode: 0600
+
+
+- include: include/commit-etc.yml
+  when: dups.changed
+  vars: { comment: After configuring duplicity for backupninja }

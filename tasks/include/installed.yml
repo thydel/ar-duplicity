@@ -1,0 +1,13 @@
+---
+
+- name: check if a package is installed
+  register: registered
+  failed_when: registered.rc > 1
+  changed_when: False
+  always_run: True
+
+  command: dpkg-query -l {{ name }}
+
+
+- set_fact:
+    installed: '{{ installed | default([]) + [ name ] }}'

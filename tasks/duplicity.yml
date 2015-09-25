@@ -1,0 +1,52 @@
+---
+
+- set_fact:
+    build_dep: [ gcc, python-dev, librsync-dev, python-lockfile, python-gobject-2, python-paramiko, python-pycryptopp ]
+
+- { include: include/install.yml, vars: { list: '{{ build_dep }}' }}
+- { include: include/installed.yml, vars: { name: gcc }}
+
+- name: duplicity - ensure requested dirs exists
+  with_items: [ '{{ paths.dist }}', '{{ paths.src }}', '{{ paths.bin }}' ]
+
+  file:
+    path: '{{ item }}'
+    state: directory
+
+
+- name: duplicity - get release from official site
+
+  get_url:
+    url: '{{ urls.duplicity }}'
+    dest: '{{ files.duplicity_tgz }}'
+
+
+- name: duplicity - extract tar
+
+  command: tar zxvf {{ files.duplicity_tgz }} --no-same-owner
+  args:
+    chdir: '{{ paths.src }}'
+    creates: '{{ paths.src }}/{{ basenames.duplicity }}'
+
+
+- name: duplicity - install
+
+  command: python setup.py install --prefix={{ local }} --record files.txt
+  args:
+    chdir: '{{ paths.src }}/{{ basenames.duplicity }}'
+    creates: '{{ paths.bin }}/{{ name }}'
+    
+
+- name: duplicity - installed ?
+  register: installed
+
+  stat: { path: '/usr/local/share/man/man1/{{ name }}.1' }
+
+
+- name: duplicity - fix man perms
+  with_items: [ duplicity, rdiffdir ]
+  when: installed.stat.exists == True
+
+  file:
+    path: /usr/local/share/man/man1/{{ item }}.1
+    mode: 0644

@@ -1,0 +1,15 @@
+---
+
+- include_vars: '{{ ansible_os_family }}.yml'
+
+- include: secret.yml tags=secret
+
+- include: duplicity.yml tags=install
+
+- include: backupninja.yml tags=ninja
+
+- include: patch.yml tags=patch
+
+- include: conf.yml tags=conf
+
+- include: duply.yml tags=duply

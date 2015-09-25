@@ -1,0 +1,19 @@
+---
+
+- runp:
+
+
+- name: see if commit needed
+
+  register: hgetcst
+  when: use_commit
+  changed_when: False
+
+  command: hg --cwd /etc st
+
+
+- name: hg commit if needed
+
+  when: use_commit and run_mode and hgetcst.stdout != ""
+
+  command: hg --cwd /etc com -Am "{{ 'Via ansible - ' + comment }}"

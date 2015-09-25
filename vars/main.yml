@@ -1,0 +1,26 @@
+---
+
+name: duplicity
+local: /usr/local
+fetched: files
+
+versions:
+  duplicity: 0.6.23
+
+paths:
+  dist: "{{ local }}/dist"
+  bin: "{{ local }}/bin"
+  src: "{{ local }}/src"
+  etc: /etc/{{ name }}
+  lkeys: "{{ playbook_dir }}/{{ fetched }}"
+
+basenames:
+  duplicity: duplicity-{{ versions.duplicity }}
+
+urls:
+  duplicity: http://code.launchpad.net/duplicity/0.6-series/{{ versions.duplicity }}/+download/{{ basenames.duplicity }}.tar.gz
+
+files:
+  duplicity_tgz: >-
+    {{ paths.dist }}/{{ basenames.duplicity }}.tar.gz
+

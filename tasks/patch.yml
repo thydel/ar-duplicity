@@ -1,0 +1,25 @@
+---
+
+- { include: include/installed.yml, vars: { name: backupninja }}
+
+- name: backupninja - copy patch file
+  when: True and 'backupninja' in installed
+
+  copy:
+    src: backupninja-dup.patch
+    dest: /usr/share/backupninja
+
+
+- name: backupninja - patch file copied ?
+  register: patch
+  
+  stat: { path: /usr/share/backupninja/backupninja-dup.patch }
+
+
+- name: backupninja - patch duplicity backend to allow password file inclusion
+  when: patch.stat.exists == True
+
+  patch:
+    src: /usr/share/backupninja/backupninja-dup.patch
+    basedir: /usr/share/backupninja
+    remote_src: True
