@@ -38,14 +38,14 @@
     
 
 - name: duplicity - installed ?
-  register: installed
+  register: installed_
 
   stat: { path: '/usr/local/share/man/man1/{{ name }}.1' }
 
 
 - name: duplicity - fix man perms
   with_items: [ duplicity, rdiffdir ]
-  when: installed.stat.exists == True
+  when: installed_.stat.exists == True
 
   file:
     path: /usr/local/share/man/man1/{{ item }}.1

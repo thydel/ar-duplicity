@@ -8,6 +8,5 @@
 
   command: dpkg-query -l {{ name }}
 
-
 - set_fact:
     installed: '{{ installed | default([]) + [ name ] }}'

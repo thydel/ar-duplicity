@@ -6,7 +6,6 @@
 
 
 - assert: { that: backupninja is defined }
-- debug: { var: backupninja }
 
 - name: backupninja - duplicity configs
   with_items: backupninja.dups | itemize
