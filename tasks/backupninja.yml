@@ -20,7 +20,7 @@
 - { include: include/commit-etc.yml, vars: { comment: Before configuring backupninja }}
 
 
-- { include: include/installed.yml, vars: { name: augeas-tools }}
+- { include: include/installed.yml, vars: { name: backupninja }}
 
 - name: backupninja - our config setup
   when: True and 'backupninja' in installed
