@@ -18,11 +18,15 @@ tmpdir = {{ default.tmpdir }}
 % set volsize = default.volsize
 % set shortname = default.desthost.shortname
 % set name = shortname ~ "+" ~ inventory_hostname ~ "+" ~ item.name
+% set ssh_backend = ""
+% if default.ssh_backend is defined
+  % set ssh_backend = " --ssh-backend " ~ default.ssh_backend
+% endif
 % set onefs = ""
 % if item.exclude_other_filesystems is defined
   % set onefs = " --exclude-other-filesystems"
 % endif
-% set options = "--archive-dir " ~ archive ~ " --name " ~ name ~ " --volsize " ~ volsize ~ onefs
+% set options = "--archive-dir " ~ archive ~ " --name " ~ name ~ " --volsize " ~ volsize ~ onefs ~ ssh_backend
 options = {{ options }}
 
 [gpg]
