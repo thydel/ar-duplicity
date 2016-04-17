@@ -25,4 +25,5 @@ backupninja:
       num: 90
       exclude_other_filesystems: Yes
       include: [ /* ]
+      exclude: [ /space ]
       keepincroffulls: 4
