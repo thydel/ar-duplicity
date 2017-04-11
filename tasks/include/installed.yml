@@ -4,7 +4,7 @@
   register: registered
   failed_when: registered.rc > 1
   changed_when: False
-  always_run: True
+  check_mode: False
 
   command: dpkg-query -l {{ name }}
 
