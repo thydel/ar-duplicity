@@ -15,7 +15,7 @@
 
 
 - name: duplicity - get release from official site
-  environment: proxy_env
+  environment: '{{ proxy_env }}'
 
   get_url:
     url: '{{ urls.duplicity }}'
