@@ -8,7 +8,7 @@
 - assert: { that: backupninja is defined }
 
 - name: backupninja - duplicity configs
-  with_items: backupninja.dups | itemize
+  with_items: '{{ backupninja.dups | itemize }}'
   register: dups
 
   template:
