@@ -9,7 +9,7 @@
 
 - name: install packages
 
-  with_items: list
+  with_items: '{{ list }}'
   register: apt
 
   apt:
