@@ -1,13 +1,25 @@
 ---
 
-- include: secret.yml tags=secret
+- include: secret.yml
+  tags: secret
+  static: True
 
-- include: duplicity.yml tags=install
+- include: duplicity.yml
+  tags: install
+  static: True
 
-- include: backupninja.yml tags=ninja
+- include: backupninja.yml
+  tags: ninja
+  static: True
 
-- include: patch.yml tags=patch
+- include: patch.yml
+  tags: patch
+  static: True
 
-- include: conf.yml tags=conf
+- include: conf.yml
+  tags: conf
+  static: True
 
-- include: duply.yml tags=duply
+- include: duply.yml
+  tags: duply
+  static: True
