@@ -3,8 +3,8 @@
 - set_fact:
     build_dep: [ gcc, python-dev, librsync-dev, python-lockfile, python-gobject-2, python-paramiko, python-pycryptopp ]
 
-- { include: include/install.yml, vars: { list: '{{ build_dep }}' }}
-- { include: include/installed.yml, vars: { name: gcc }}
+- { import_tasks: include/install.yml, vars: { list: '{{ build_dep }}' }}
+- { import_tasks: include/installed.yml, vars: { name: gcc }}
 
 - name: duplicity - ensure requested dirs exists
   with_items: [ '{{ paths.dist }}', '{{ paths.src }}', '{{ paths.bin }}' ]

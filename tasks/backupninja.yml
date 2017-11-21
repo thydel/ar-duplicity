@@ -2,12 +2,12 @@
 
 - set_fact: { use_commit: True }
 
-- { include: include/install.yml, vars: { list: [ backupninja, augeas-tools, python-augeas, python-yaml ] }}
+- { import_tasks: include/install.yml, vars: { list: [ backupninja, augeas-tools, python-augeas, python-yaml ] }}
 
 
 # http://www.raphink.info/2011/02/manually-associating-lenses-with-files.html
 
-- { include: include/installed.yml, vars: { name: augeas-tools }}
+- { import_tasks: include/installed.yml, vars: { name: augeas-tools }}
 
 - name: backupninja - install augtools lens for php like conf files
   when: True and 'augeas-tools' in installed
@@ -17,10 +17,10 @@
     dest: /usr/share/augeas/lenses/phplike.aug
 
 
-- { include: include/commit-etc.yml, vars: { comment: Before configuring backupninja }}
+- { import_tasks: include/commit-etc.yml, vars: { comment: Before configuring backupninja }}
 
 
-- { include: include/installed.yml, vars: { name: backupninja }}
+- { import_tasks: include/installed.yml, vars: { name: backupninja }}
 
 - name: backupninja - our config setup
   when: True and 'backupninja' in installed
@@ -35,7 +35,7 @@
     value: '{{ item.value }}'
 
 
-- include: include/commit-etc.yml
+- import_tasks: include/commit-etc.yml
   when: augeas.changed
   vars: { comment: After configuring backupninja }
 

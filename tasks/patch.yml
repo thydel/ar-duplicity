@@ -1,6 +1,6 @@
 ---
 
-- { include: include/installed.yml, vars: { name: backupninja }}
+- { import_tasks: include/installed.yml, vars: { name: backupninja }}
 
 - name: backupninja - copy patch file
   when: True and 'backupninja' in installed
