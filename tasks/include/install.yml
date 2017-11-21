@@ -3,7 +3,7 @@
 - set_fact: { use_commit: True }
 
 
-- include: commit-etc.yml
+- import_tasks: commit-etc.yml
   vars: { comment: '{{ "Before installing " + list | join(" ") }}' }
 
 
@@ -19,7 +19,7 @@
     cache_valid_time: 300
 
 
-- include: commit-etc.yml
+- import_tasks: commit-etc.yml
   when: apt.changed
   vars: { comment: '{{ "After installing " + list | join(" ") }}' }
 

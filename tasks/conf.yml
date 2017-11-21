@@ -2,7 +2,7 @@
 
 - set_fact: { use_commit: True }
 
-- { include: include/commit-etc.yml, vars: { comment: Before configuring duplicity for backupninja }}
+- { import_tasks: include/commit-etc.yml, vars: { comment: Before configuring duplicity for backupninja }}
 
 
 - assert: { that: backupninja is defined }
@@ -17,6 +17,6 @@
     mode: 0600
 
 
-- include: include/commit-etc.yml
+- import_tasks: include/commit-etc.yml
   when: dups.changed
   vars: { comment: After configuring duplicity for backupninja }

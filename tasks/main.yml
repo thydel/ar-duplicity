@@ -1,25 +1,25 @@
 ---
 
-- include: secret.yml
+- import_tasks: secret.yml
   tags: secret
   static: True
 
-- include: duplicity.yml
+- import_tasks: duplicity.yml
   tags: install
   static: True
 
-- include: backupninja.yml
+- import_tasks: backupninja.yml
   tags: ninja
   static: True
 
-- include: patch.yml
+- import_tasks: patch.yml
   tags: patch
   static: True
 
-- include: conf.yml
+- import_tasks: conf.yml
   tags: conf
   static: True
 
-- include: duply.yml
+- import_tasks: duply.yml
   tags: duply
   static: True
