@@ -1,25 +1,25 @@
 ---
 
+- name: verify ansible version
+  vars: { version: '2.5' }
+  assert:
+    that: ansible_version.full is version_compare(version, '>=')
+    msg: Use ansible version {{ version }} at least
+
 - import_tasks: secret.yml
   tags: secret
-  static: True
 
 - import_tasks: duplicity.yml
   tags: install
-  static: True
 
 - import_tasks: backupninja.yml
   tags: ninja
-  static: True
 
 - import_tasks: patch.yml
   tags: patch
-  static: True
 
 - import_tasks: conf.yml
   tags: conf
-  static: True
 
 - import_tasks: duply.yml
   tags: duply
-  static: True
