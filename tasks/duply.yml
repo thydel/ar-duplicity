@@ -1,8 +1,7 @@
 ---
 
 - name: duply - ensure duply installed
-  apt: name={{ item }} state=latest update_cache=yes
-  with_items: [ duply ]
+  apt: name=duply state=latest update_cache=yes
 
 - set_fact:
     std_dup_bin: /usr/bin/duplicity

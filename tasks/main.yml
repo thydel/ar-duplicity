@@ -3,6 +3,7 @@
 - name: verify ansible version
   vars: { version: '2.5' }
   assert:
+    quiet: True
     that: ansible_version.full is version_compare(version, '>=')
     msg: Use ansible version {{ version }} at least
 

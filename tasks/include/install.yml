@@ -9,11 +9,10 @@
 
 - name: install packages
 
-  with_items: '{{ list }}'
   register: apt
 
   apt:
-    name: '{{ item }}'
+    name: '{{ list }}'
     state: latest
     update_cache: True
     cache_valid_time: 300

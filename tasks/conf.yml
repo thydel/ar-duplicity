@@ -5,7 +5,7 @@
 - { import_tasks: include/commit-etc.yml, vars: { comment: Before configuring duplicity for backupninja }}
 
 
-- assert: { that: backupninja is defined }
+- assert: { quiet: True, that: backupninja is defined }
 
 - name: backupninja - duplicity configs
   with_items: '{{ backupninja.dups | itemize }}'

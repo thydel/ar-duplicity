@@ -1,4 +1,4 @@
 ---
 
 - { register: file, stat: { path: '{{ path }}' }}
-- assert: { that: file.stat.exists }
+- assert: { quiet: True, that: file.stat.exists }
